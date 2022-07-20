@@ -17,6 +17,8 @@ import { PictureExample } from './picture/picture-example';
 import { PictureExampleInnerHTMLFixed } from './picture/picture-example-inner-html-fixed';
 import { PictureExampleLazyFixed } from './picture/picture-example-lazy-fixed';
 
+import { WrongBrowserNotification } from './wrong-browser-notification';
+
 import './index.css';
 
 const Router =
@@ -24,7 +26,8 @@ const Router =
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router basename={import.meta.env.VITE_PUBLIC_URL}>
+    <Router>
+      <WrongBrowserNotification />
       <NavLink
         to="/"
         className="back-button"

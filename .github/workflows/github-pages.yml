@@ -1,16 +1,20 @@
 name: Github pages publisher
+permissions:
+  checks: write
+  contents: write
+  deployments: write
+  pull-requests: write
+  repository-projects: write
+  statuses: write
 on:
-  workflow_run:
-    workflows: ['React checks']
+  push:
     branches: [main]
-    types:
-      - completed
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
@@ -36,8 +40,16 @@ jobs:
           VITE_REACT_APP_ROUTER: ${{ secrets.VITE_REACT_APP_ROUTER }}
       - name: Publish on gh-pages
         run: |
+          date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git --work-tree build add --all
+          git --work-tree dist add --all
           git commit -m "Automatic Deploy action run by github-actions"
           git push origin HEAD:gh-pages --force
+      # - name: Publish on gh-pages
+      #   run: |
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git --work-tree build add --all
+      #     git commit -m "Automatic Deploy action run by github-actions"
+      #     git push origin HEAD:gh-pages --force
